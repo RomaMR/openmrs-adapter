@@ -1,9 +1,9 @@
 package org.openmrs.web.controller;
 
-import com.wordnik.swagger.annotations.Api;
 import org.openmrs.domain.template.TemplateResults;
 import org.openmrs.domain.vital.Vital;
 import org.openmrs.service.vital.VitalService;
+import org.openmrs.web.dto.VitalDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -16,9 +16,8 @@ import javax.annotation.Resource;
  * Created by romanmudryi on 16.07.15.
  */
 @RestController
-@Api(basePath = "/vital", value = "vital", description = "Operations with Vital", produces = "application/json")
 @RequestMapping("/api/vital")
-public class VitalController {
+public class VitalController extends BaseController{
     private static final Logger LOGGER = LoggerFactory.getLogger(VisitController.class);
 
     @Resource(name = "vitalService")
@@ -38,5 +37,29 @@ public class VitalController {
 
         TemplateResults vitals = vitalService.getVitals(patientUUID);
         return new ResponseEntity<TemplateResults>(vitals, HttpStatus.OK);
+    }
+
+    @RequestMapping(method = RequestMethod.POST)
+    public ResponseEntity<Vital> create(@RequestBody VitalDTO vitalDTO) {
+        LOGGER.info("REST request to create vital");
+        Vital vital = vitalService.createVital(vitalDTO);
+        return new ResponseEntity<Vital>(vital, HttpStatus.CREATED
+        );
+    }
+
+    @RequestMapping(value = "/{uuid}", method = RequestMethod.PUT)
+    public ResponseEntity<Vital> update(@PathVariable("uuid") String uuid, @RequestBody VitalDTO vitalDTO) {
+        LOGGER.info("REST request to update vital");
+        vitalDTO.setUuid(uuid);
+        Vital vital = vitalService.updateVital(uuid, vitalDTO);
+        return new ResponseEntity<Vital>(vital, HttpStatus.CREATED);
+    }
+
+    @RequestMapping(value = "/{uuid}", method = RequestMethod.DELETE)
+    public ResponseEntity<Void> delete(@PathVariable("uuid") String uuid, @RequestParam(value = "purge") Boolean purge) {
+        LOGGER.info("REST request to delete vital");
+
+        vitalService.deleteVital(uuid, purge);
+        return new ResponseEntity<Void>(HttpStatus.OK);
     }
 }

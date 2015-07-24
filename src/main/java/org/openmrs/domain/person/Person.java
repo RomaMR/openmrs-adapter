@@ -173,4 +173,51 @@ public class Person  implements java.io.Serializable {
     public void setResourceVersion(String resourceVersion) {
         this.resourceVersion = resourceVersion;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Person)) return false;
+
+        Person person = (Person) o;
+
+        if (uuid != null ? !uuid.equals(person.uuid) : person.uuid != null) return false;
+        if (display != null ? !display.equals(person.display) : person.display != null) return false;
+        if (gender != null ? !gender.equals(person.gender) : person.gender != null) return false;
+        if (age != null ? !age.equals(person.age) : person.age != null) return false;
+        if (birthdate != null ? !birthdate.equals(person.birthdate) : person.birthdate != null) return false;
+        if (birthdateEstimated != null ? !birthdateEstimated.equals(person.birthdateEstimated) : person.birthdateEstimated != null) return false;
+        if (dead != null ? !dead.equals(person.dead) : person.dead != null) return false;
+        if (deathDate != null ? !deathDate.equals(person.deathDate) : person.deathDate != null) return false;
+        if (causeOfDeath != null ? !causeOfDeath.equals(person.causeOfDeath) : person.causeOfDeath != null) return false;
+        if (preferredName != null ? !preferredName.equals(person.preferredName) : person.preferredName != null) return false;
+        if (preferredAddress != null ? !preferredAddress.equals(person.preferredAddress) : person.preferredAddress != null) return false;
+        if (attributes != null ? !attributes.equals(person.attributes) : person.attributes != null) return false;
+        if (voided != null ? !voided.equals(person.voided) : person.voided != null) return false;
+        if (deathdateEstimated != null ? !deathdateEstimated.equals(person.deathdateEstimated) : person.deathdateEstimated != null) return false;
+        if (links != null ? !links.equals(person.links) : person.links != null) return false;
+        return !(resourceVersion != null ? !resourceVersion.equals(person.resourceVersion) : person.resourceVersion != null);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = uuid != null ? uuid.hashCode() : 0;
+        result = 31 * result + (display != null ? display.hashCode() : 0);
+        result = 31 * result + (gender != null ? gender.hashCode() : 0);
+        result = 31 * result + (age != null ? age.hashCode() : 0);
+        result = 31 * result + (birthdate != null ? birthdate.hashCode() : 0);
+        result = 31 * result + (birthdateEstimated != null ? birthdateEstimated.hashCode() : 0);
+        result = 31 * result + (dead != null ? dead.hashCode() : 0);
+        result = 31 * result + (deathDate != null ? deathDate.hashCode() : 0);
+        result = 31 * result + (causeOfDeath != null ? causeOfDeath.hashCode() : 0);
+        result = 31 * result + (preferredName != null ? preferredName.hashCode() : 0);
+        result = 31 * result + (preferredAddress != null ? preferredAddress.hashCode() : 0);
+        result = 31 * result + (attributes != null ? attributes.hashCode() : 0);
+        result = 31 * result + (voided != null ? voided.hashCode() : 0);
+        result = 31 * result + (deathdateEstimated != null ? deathdateEstimated.hashCode() : 0);
+        result = 31 * result + (links != null ? links.hashCode() : 0);
+        result = 31 * result + (resourceVersion != null ? resourceVersion.hashCode() : 0);
+        return result;
+    }
 }

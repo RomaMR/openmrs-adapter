@@ -84,4 +84,33 @@ public class Patient implements Serializable{
     public void setResourceVersion(String resourceVersion) {
         this.resourceVersion = resourceVersion;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Patient)) return false;
+
+        Patient patient = (Patient) o;
+
+        if (uuid != null ? !uuid.equals(patient.uuid) : patient.uuid != null) return false;
+        if (display != null ? !display.equals(patient.display) : patient.display != null) return false;
+        if (identifiers != null ? !identifiers.equals(patient.identifiers) : patient.identifiers != null) return false;
+        if (person != null ? !person.equals(patient.person) : patient.person != null) return false;
+        if (voided != null ? !voided.equals(patient.voided) : patient.voided != null) return false;
+        if (links != null ? !links.equals(patient.links) : patient.links != null) return false;
+        return !(resourceVersion != null ? !resourceVersion.equals(patient.resourceVersion) : patient.resourceVersion != null);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = uuid != null ? uuid.hashCode() : 0;
+        result = 31 * result + (display != null ? display.hashCode() : 0);
+        result = 31 * result + (identifiers != null ? identifiers.hashCode() : 0);
+        result = 31 * result + (person != null ? person.hashCode() : 0);
+        result = 31 * result + (voided != null ? voided.hashCode() : 0);
+        result = 31 * result + (links != null ? links.hashCode() : 0);
+        result = 31 * result + (resourceVersion != null ? resourceVersion.hashCode() : 0);
+        return result;
+    }
 }

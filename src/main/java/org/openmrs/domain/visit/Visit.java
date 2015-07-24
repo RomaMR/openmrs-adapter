@@ -143,4 +143,45 @@ public class Visit {
     public void setResourceVersion(String resourceVersion) {
         this.resourceVersion = resourceVersion;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Visit)) return false;
+
+        Visit visit = (Visit) o;
+
+        if (uuid != null ? !uuid.equals(visit.uuid) : visit.uuid != null) return false;
+        if (display != null ? !display.equals(visit.display) : visit.display != null) return false;
+        if (patient != null ? !patient.equals(visit.patient) : visit.patient != null) return false;
+        if (visitType != null ? !visitType.equals(visit.visitType) : visit.visitType != null) return false;
+        if (indication != null ? !indication.equals(visit.indication) : visit.indication != null) return false;
+        if (location != null ? !location.equals(visit.location) : visit.location != null) return false;
+        if (startDatetime != null ? !startDatetime.equals(visit.startDatetime) : visit.startDatetime != null) return false;
+        if (stopDatetime != null ? !stopDatetime.equals(visit.stopDatetime) : visit.stopDatetime != null) return false;
+        if (encounters != null ? !encounters.equals(visit.encounters) : visit.encounters != null) return false;
+        if (attributes != null ? !attributes.equals(visit.attributes) : visit.attributes != null) return false;
+        if (voided != null ? !voided.equals(visit.voided) : visit.voided != null) return false;
+        if (links != null ? !links.equals(visit.links) : visit.links != null) return false;
+        return !(resourceVersion != null ? !resourceVersion.equals(visit.resourceVersion) : visit.resourceVersion != null);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = uuid != null ? uuid.hashCode() : 0;
+        result = 31 * result + (display != null ? display.hashCode() : 0);
+        result = 31 * result + (patient != null ? patient.hashCode() : 0);
+        result = 31 * result + (visitType != null ? visitType.hashCode() : 0);
+        result = 31 * result + (indication != null ? indication.hashCode() : 0);
+        result = 31 * result + (location != null ? location.hashCode() : 0);
+        result = 31 * result + (startDatetime != null ? startDatetime.hashCode() : 0);
+        result = 31 * result + (stopDatetime != null ? stopDatetime.hashCode() : 0);
+        result = 31 * result + (encounters != null ? encounters.hashCode() : 0);
+        result = 31 * result + (attributes != null ? attributes.hashCode() : 0);
+        result = 31 * result + (voided != null ? voided.hashCode() : 0);
+        result = 31 * result + (links != null ? links.hashCode() : 0);
+        result = 31 * result + (resourceVersion != null ? resourceVersion.hashCode() : 0);
+        return result;
+    }
 }

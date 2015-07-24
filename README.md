@@ -1,2 +1,0 @@
-# openmrs-adapter
-openmrs-adapter

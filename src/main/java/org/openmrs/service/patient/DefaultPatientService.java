@@ -3,6 +3,7 @@ package org.openmrs.service.patient;
 import org.openmrs.domain.patient.Patient;
 import org.openmrs.domain.template.TemplateResults;
 import org.openmrs.service.rest.RestTemplateService;
+import org.openmrs.web.dto.PatientDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -19,8 +20,12 @@ public class DefaultPatientService implements PatientService {
     @Resource(name = "restTemplateService")
     private RestTemplateService restTemplateService;
 
-    @Value("${openmrs.host.rest}")
     private String host;
+
+    @Value("${openmrs.host.rest}")
+    public void setHost(String host) {
+        this.host = host;
+    }
 
     @Override
     public Patient getPatient(String uuid) {
@@ -38,4 +43,20 @@ public class DefaultPatientService implements PatientService {
         return result.getBody();
     }
 
+    @Override
+    public Patient createPatient(PatientDTO patientDTO) {
+        LOGGER.info("creating person");
+
+        ResponseEntity<Patient> result = restTemplateService.exchangePOST(host + "/patient", HttpMethod.POST, patientDTO, Patient.class);
+        return result.getBody();
+    }
+
+    @Override
+    public Patient updatePatient(String uuid, PatientDTO patientDTO) {
+        LOGGER.info("updating person");
+        patientDTO.setUuid(uuid);
+
+        ResponseEntity<Patient> result = restTemplateService.exchangePOST(host + "/patient", HttpMethod.POST, patientDTO, Patient.class);
+        return result.getBody();
+    }
 }

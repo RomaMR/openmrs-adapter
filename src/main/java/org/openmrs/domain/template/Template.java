@@ -39,4 +39,25 @@ public class Template {
     public void setLinks(List<TemplateLinks> links) {
         this.links = links;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Template)) return false;
+
+        Template template = (Template) o;
+
+        if (uuid != null ? !uuid.equals(template.uuid) : template.uuid != null) return false;
+        if (display != null ? !display.equals(template.display) : template.display != null) return false;
+        return !(links != null ? !links.equals(template.links) : template.links != null);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = uuid != null ? uuid.hashCode() : 0;
+        result = 31 * result + (display != null ? display.hashCode() : 0);
+        result = 31 * result + (links != null ? links.hashCode() : 0);
+        return result;
+    }
 }

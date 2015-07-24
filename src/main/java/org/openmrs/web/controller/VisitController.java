@@ -1,9 +1,9 @@
 package org.openmrs.web.controller;
 
-import com.wordnik.swagger.annotations.Api;
 import org.openmrs.domain.template.TemplateResults;
 import org.openmrs.domain.visit.Visit;
 import org.openmrs.service.visit.VisitService;
+import org.openmrs.web.dto.VisitDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -16,9 +16,8 @@ import javax.annotation.Resource;
  * Created by romanmudryi on 15.07.15.
  */
 @RestController
-@Api(basePath = "/visit", value = "visit", description = "Operations with Visit", produces = "application/json")
 @RequestMapping("/api/visit")
-public class VisitController {
+public class VisitController extends BaseController{
     private static final Logger LOGGER = LoggerFactory.getLogger(VisitController.class);
 
     @Resource(name = "visitService")
@@ -38,6 +37,21 @@ public class VisitController {
 
         TemplateResults visits = visitService.getVisits(patientUUID);
         return new ResponseEntity<TemplateResults>(visits, HttpStatus.OK);
+    }
+
+    @RequestMapping(method = RequestMethod.POST)
+    public ResponseEntity<Visit> create(@RequestBody VisitDTO visitDTO) {
+        LOGGER.info("REST request to create visit");
+        Visit visit = visitService.createVisit(visitDTO);
+        return new ResponseEntity<Visit>(visit, HttpStatus.CREATED);
+    }
+
+    @RequestMapping(value = "/{uuid}", method = RequestMethod.PUT)
+    public ResponseEntity<Visit> update(@PathVariable("uuid") String uuid, @RequestBody VisitDTO visitDTO) {
+        LOGGER.info("REST request to update visit");
+        visitDTO.setUuid(uuid);
+        Visit visit = visitService.updateVisit(uuid, visitDTO);
+        return new ResponseEntity<Visit>(visit, HttpStatus.CREATED);
     }
 
 }

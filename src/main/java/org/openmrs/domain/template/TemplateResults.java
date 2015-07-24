@@ -19,4 +19,20 @@ public class TemplateResults {
     public void setResults(List<Template> results) {
         this.results = results;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof TemplateResults)) return false;
+
+        TemplateResults results1 = (TemplateResults) o;
+
+        return !(results != null ? !results.equals(results1.results) : results1.results != null);
+
+    }
+
+    @Override
+    public int hashCode() {
+        return results != null ? results.hashCode() : 0;
+    }
 }
