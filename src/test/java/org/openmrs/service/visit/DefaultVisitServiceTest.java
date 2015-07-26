@@ -8,7 +8,7 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.openmrs.domain.template.TemplateResults;
 import org.openmrs.domain.visit.Visit;
-import org.openmrs.service.rest.RestTemplateService;
+import org.openmrs.service.rest.RestTemplateAdapter;
 import org.openmrs.web.dto.VisitDTO;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
@@ -30,7 +30,7 @@ public class DefaultVisitServiceTest {
     public static final String URL = HOST + "/visit";
 
     @Mock
-    private RestTemplateService restTemplateService;
+    private RestTemplateAdapter restTemplateAdapter;
 
     @InjectMocks
     private DefaultVisitService unit;
@@ -51,11 +51,11 @@ public class DefaultVisitServiceTest {
         ResponseEntity<Visit> expected = new ResponseEntity<Visit>(visit, HttpStatus.OK);
 
         // When
-        when(restTemplateService.exchange(anyString(), any(HttpMethod.class), eq(Visit.class))).thenReturn(expected);
+        when(restTemplateAdapter.exchange(anyString(), any(HttpMethod.class), eq(Visit.class))).thenReturn(expected);
         Visit actual = unit.getVisit(uuid);
 
         // Then
-        verify(restTemplateService).exchange(URL +"/" + uuid, HttpMethod.GET, Visit.class);
+        verify(restTemplateAdapter).exchange(URL +"/" + uuid, HttpMethod.GET, Visit.class);
         assertEquals(expected.getBody(), actual);
     }
 
@@ -68,11 +68,11 @@ public class DefaultVisitServiceTest {
         ResponseEntity<TemplateResults> expected = new ResponseEntity<TemplateResults>(templateResults, HttpStatus.OK);
 
         // When
-        when(restTemplateService.exchange(anyString(), any(HttpMethod.class), eq(TemplateResults.class))).thenReturn(expected);
+        when(restTemplateAdapter.exchange(anyString(), any(HttpMethod.class), eq(TemplateResults.class))).thenReturn(expected);
         TemplateResults actual = unit.getVisits(uuid);
 
         // Then
-        verify(restTemplateService).exchange(URL + "?patient=" + uuid, HttpMethod.GET, TemplateResults.class);
+        verify(restTemplateAdapter).exchange(URL + "?patient=" + uuid, HttpMethod.GET, TemplateResults.class);
         assertEquals(expected.getBody(), actual);
     }
 
@@ -95,11 +95,11 @@ public class DefaultVisitServiceTest {
         ResponseEntity<Visit> expected = new ResponseEntity<Visit>(visit, HttpStatus.OK);
 
         // When
-        when(restTemplateService.exchangePOST(anyString(), any(HttpMethod.class), any(VisitDTO.class), eq(Visit.class))).thenReturn(expected);
+        when(restTemplateAdapter.exchangePOST(anyString(), any(HttpMethod.class), any(VisitDTO.class), eq(Visit.class))).thenReturn(expected);
         Visit actual = unit.createVisit(visitDTO);
 
         // Then
-        verify(restTemplateService).exchangePOST(URL, HttpMethod.POST, visitDTO, Visit.class);
+        verify(restTemplateAdapter).exchangePOST(URL, HttpMethod.POST, visitDTO, Visit.class);
         assertEquals(expected.getBody(), actual);
     }
 
@@ -123,11 +123,11 @@ public class DefaultVisitServiceTest {
         ResponseEntity<Visit> expected = new ResponseEntity<Visit>(visit, HttpStatus.OK);
 
         // When
-        when(restTemplateService.exchangePOST(anyString(), any(HttpMethod.class), any(VisitDTO.class), eq(Visit.class))).thenReturn(expected);
+        when(restTemplateAdapter.exchangePOST(anyString(), any(HttpMethod.class), any(VisitDTO.class), eq(Visit.class))).thenReturn(expected);
         Visit actual = unit.updateVisit(uuid, visitDTO);
 
         // Then
-        verify(restTemplateService).exchangePOST(URL + "/" + uuid, HttpMethod.POST, visitDTO, Visit.class);
+        verify(restTemplateAdapter).exchangePOST(URL + "/" + uuid, HttpMethod.POST, visitDTO, Visit.class);
         assertEquals(expected.getBody(), actual);
     }
 }

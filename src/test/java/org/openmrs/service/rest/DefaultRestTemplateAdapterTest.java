@@ -22,7 +22,7 @@ import static org.mockito.Mockito.when;
  * Created by romanmudryi on 24.07.15.
  */
 @RunWith(MockitoJUnitRunner.class)
-public class DefaultRestTemplateServiceTest {
+public class DefaultRestTemplateAdapterTest {
 
     @Mock
     private RestTemplate restTemplate;
@@ -31,7 +31,7 @@ public class DefaultRestTemplateServiceTest {
     private SessionService sessionService;
 
     @InjectMocks
-    private DefaultRestTemplateService unit;
+    private DefaultRestTemplateAdapter unit;
 
     @Test
     public void testExchange() throws Exception {

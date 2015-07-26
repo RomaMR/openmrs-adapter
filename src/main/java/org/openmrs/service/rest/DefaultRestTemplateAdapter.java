@@ -16,9 +16,9 @@ import java.util.Arrays;
 /**
  * Created by romanmudryi on 16.07.15.
  */
-@Component("restTemplateService")
-public class DefaultRestTemplateService implements RestTemplateService{
-    private static final Logger LOGGER = LoggerFactory.getLogger(DefaultRestTemplateService.class);
+@Component("restTemplateAdapter")
+public class DefaultRestTemplateAdapter implements RestTemplateAdapter {
+    private static final Logger LOGGER = LoggerFactory.getLogger(DefaultRestTemplateAdapter.class);
 
     @Resource(name = "defaultRestTemplate")
     private RestTemplate restTemplate;

@@ -7,7 +7,7 @@ import org.springframework.web.client.RestClientException;
 /**
  * Created by romanmudryi on 16.07.15.
  */
-public interface RestTemplateService {
+public interface RestTemplateAdapter {
 
     <T> ResponseEntity<T> exchange(String url, HttpMethod method, Class<T> responseType) throws RestClientException;
 

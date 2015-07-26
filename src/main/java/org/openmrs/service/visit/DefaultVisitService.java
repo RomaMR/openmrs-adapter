@@ -2,7 +2,7 @@ package org.openmrs.service.visit;
 
 import org.openmrs.domain.template.TemplateResults;
 import org.openmrs.domain.visit.Visit;
-import org.openmrs.service.rest.RestTemplateService;
+import org.openmrs.service.rest.RestTemplateAdapter;
 import org.openmrs.web.dto.VisitDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,8 +20,8 @@ import javax.annotation.Resource;
 public class DefaultVisitService implements VisitService {
     private static final Logger LOGGER = LoggerFactory.getLogger(DefaultVisitService.class);
 
-    @Resource(name = "restTemplateService")
-    private RestTemplateService restTemplateService;
+    @Resource(name = "restTemplateAdapter")
+    private RestTemplateAdapter restTemplateAdapter;
 
     private String host;
 
@@ -34,7 +34,7 @@ public class DefaultVisitService implements VisitService {
     public Visit getVisit(String uuid) {
         LOGGER.info("getting visit");
 
-        ResponseEntity<Visit> result = restTemplateService.exchange(host + "/visit/" + uuid, HttpMethod.GET, Visit.class);
+        ResponseEntity<Visit> result = restTemplateAdapter.exchange(host + "/visit/" + uuid, HttpMethod.GET, Visit.class);
         return result.getBody();
     }
 
@@ -42,7 +42,7 @@ public class DefaultVisitService implements VisitService {
     public TemplateResults getVisits(String patientUUID) {
         LOGGER.info("getting all visit");
 
-        ResponseEntity<TemplateResults> result = restTemplateService.exchange(host + "/visit?patient=" + patientUUID, HttpMethod.GET, TemplateResults
+        ResponseEntity<TemplateResults> result = restTemplateAdapter.exchange(host + "/visit?patient=" + patientUUID, HttpMethod.GET, TemplateResults
                 .class);
         return result.getBody();
     }
@@ -51,7 +51,7 @@ public class DefaultVisitService implements VisitService {
     public Visit createVisit(VisitDTO visitDTO) {
         LOGGER.info("creating visit");
 
-        ResponseEntity<Visit> result = restTemplateService.exchangePOST(host + "/visit", HttpMethod.POST, visitDTO, Visit.class);
+        ResponseEntity<Visit> result = restTemplateAdapter.exchangePOST(host + "/visit", HttpMethod.POST, visitDTO, Visit.class);
         return result.getBody();
     }
 
@@ -59,7 +59,7 @@ public class DefaultVisitService implements VisitService {
     public Visit updateVisit(String uuid, VisitDTO visitDTO) {
         LOGGER.info("updating visit");
 
-        ResponseEntity<Visit> result = restTemplateService.exchangePOST(host + "/visit/" + uuid, HttpMethod.POST, visitDTO, Visit.class);
+        ResponseEntity<Visit> result = restTemplateAdapter.exchangePOST(host + "/visit/" + uuid, HttpMethod.POST, visitDTO, Visit.class);
         return result.getBody();
     }
 

@@ -1,4 +1,4 @@
-package org.openmrs.security;
+package org.openmrs.web.handler;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

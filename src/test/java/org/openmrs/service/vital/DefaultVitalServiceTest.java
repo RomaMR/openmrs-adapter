@@ -8,7 +8,7 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.openmrs.domain.template.TemplateResults;
 import org.openmrs.domain.vital.Vital;
-import org.openmrs.service.rest.RestTemplateService;
+import org.openmrs.service.rest.RestTemplateAdapter;
 import org.openmrs.web.dto.VitalDTO;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
@@ -32,7 +32,7 @@ public class DefaultVitalServiceTest {
     public static final String URL = HOST + "/obs";
 
     @Mock
-    private RestTemplateService restTemplateService;
+    private RestTemplateAdapter restTemplateAdapter;
 
     @InjectMocks
     private DefaultVitalService unit;
@@ -53,11 +53,11 @@ public class DefaultVitalServiceTest {
         ResponseEntity<Vital> expected = new ResponseEntity<Vital>(vital, HttpStatus.OK);
 
         // When
-        when(restTemplateService.exchange(anyString(), any(HttpMethod.class), eq(Vital.class))).thenReturn(expected);
+        when(restTemplateAdapter.exchange(anyString(), any(HttpMethod.class), eq(Vital.class))).thenReturn(expected);
         Vital actual = unit.getVital(uuid);
 
         // Then
-        verify(restTemplateService).exchange(URL + "/" + uuid, HttpMethod.GET, Vital.class);
+        verify(restTemplateAdapter).exchange(URL + "/" + uuid, HttpMethod.GET, Vital.class);
         assertEquals(expected.getBody(), actual);
     }
 
@@ -70,11 +70,11 @@ public class DefaultVitalServiceTest {
         ResponseEntity<TemplateResults> expected = new ResponseEntity<TemplateResults>(templateResults, HttpStatus.OK);
 
         // When
-        when(restTemplateService.exchange(anyString(), any(HttpMethod.class), eq(TemplateResults.class))).thenReturn(expected);
+        when(restTemplateAdapter.exchange(anyString(), any(HttpMethod.class), eq(TemplateResults.class))).thenReturn(expected);
         TemplateResults actual = unit.getVitals(uuid);
 
         // Then
-        verify(restTemplateService).exchange(URL + "?patient=" + uuid, HttpMethod.GET, TemplateResults.class);
+        verify(restTemplateAdapter).exchange(URL + "?patient=" + uuid, HttpMethod.GET, TemplateResults.class);
         assertEquals(expected.getBody(), actual);
     }
 
@@ -99,11 +99,11 @@ public class DefaultVitalServiceTest {
         ResponseEntity<Vital> expected = new ResponseEntity<Vital>(vital, HttpStatus.OK);
 
         // When
-        when(restTemplateService.exchangePOST(anyString(), any(HttpMethod.class), any(VitalDTO.class), eq(Vital.class))).thenReturn(expected);
+        when(restTemplateAdapter.exchangePOST(anyString(), any(HttpMethod.class), any(VitalDTO.class), eq(Vital.class))).thenReturn(expected);
         Vital actual = unit.createVital(vitalDTO);
 
         // Then
-        verify(restTemplateService).exchangePOST(URL, HttpMethod.POST, vitalDTO, Vital.class);
+        verify(restTemplateAdapter).exchangePOST(URL, HttpMethod.POST, vitalDTO, Vital.class);
         assertEquals(expected.getBody(), actual);
     }
 
@@ -130,11 +130,11 @@ public class DefaultVitalServiceTest {
         ResponseEntity<Vital> expected = new ResponseEntity<Vital>(vital, HttpStatus.OK);
 
         // When
-        when(restTemplateService.exchangePOST(anyString(), any(HttpMethod.class), any(VitalDTO.class), eq(Vital.class))).thenReturn(expected);
+        when(restTemplateAdapter.exchangePOST(anyString(), any(HttpMethod.class), any(VitalDTO.class), eq(Vital.class))).thenReturn(expected);
         Vital actual = unit.updateVital(uuid, vitalDTO);
 
         // Then
-        verify(restTemplateService).exchangePOST(URL + "/" + uuid, HttpMethod.POST, vitalDTO, Vital.class);
+        verify(restTemplateAdapter).exchangePOST(URL + "/" + uuid, HttpMethod.POST, vitalDTO, Vital.class);
         assertEquals(expected.getBody(), actual);
     }
 }

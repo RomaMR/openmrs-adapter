@@ -2,7 +2,7 @@ package org.openmrs.service.vital;
 
 import org.openmrs.domain.template.TemplateResults;
 import org.openmrs.domain.vital.Vital;
-import org.openmrs.service.rest.RestTemplateService;
+import org.openmrs.service.rest.RestTemplateAdapter;
 import org.openmrs.web.dto.VitalDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,8 +20,8 @@ import javax.annotation.Resource;
 public class DefaultVitalService implements VitalService {
     private static final Logger LOGGER = LoggerFactory.getLogger(DefaultVitalService.class);
 
-    @Resource(name = "restTemplateService")
-    private RestTemplateService restTemplateService;
+    @Resource(name = "restTemplateAdapter")
+    private RestTemplateAdapter restTemplateAdapter;
 
     private String host;
 
@@ -34,7 +34,7 @@ public class DefaultVitalService implements VitalService {
     public Vital getVital(String uuid) {
         LOGGER.info("getting vitals");
 
-        ResponseEntity<Vital> result = restTemplateService.exchange(host + "/obs/" + uuid, HttpMethod.GET, Vital.class);
+        ResponseEntity<Vital> result = restTemplateAdapter.exchange(host + "/obs/" + uuid, HttpMethod.GET, Vital.class);
         return result.getBody();
     }
 
@@ -42,7 +42,7 @@ public class DefaultVitalService implements VitalService {
     public TemplateResults getVitals(String patientUUID) {
         LOGGER.info("getting all vitals");
 
-        ResponseEntity<TemplateResults> result = restTemplateService.exchange(host + "/obs?patient=" + patientUUID, HttpMethod.GET, TemplateResults
+        ResponseEntity<TemplateResults> result = restTemplateAdapter.exchange(host + "/obs?patient=" + patientUUID, HttpMethod.GET, TemplateResults
                 .class);
         return result.getBody();
     }
@@ -51,7 +51,7 @@ public class DefaultVitalService implements VitalService {
     public Vital createVital(VitalDTO vitalDTO) {
         LOGGER.info("creating vital");
 
-        ResponseEntity<Vital> result = restTemplateService.exchangePOST(host + "/obs", HttpMethod.POST, vitalDTO, Vital.class);
+        ResponseEntity<Vital> result = restTemplateAdapter.exchangePOST(host + "/obs", HttpMethod.POST, vitalDTO, Vital.class);
         return result.getBody();
     }
 
@@ -59,7 +59,7 @@ public class DefaultVitalService implements VitalService {
     public Vital updateVital(String uuid, VitalDTO vitalDTO) {
         LOGGER.info("updating vital");
 
-        ResponseEntity<Vital> result = restTemplateService.exchangePOST(host + "/obs/" + uuid, HttpMethod.POST, vitalDTO, Vital.class);
+        ResponseEntity<Vital> result = restTemplateAdapter.exchangePOST(host + "/obs/" + uuid, HttpMethod.POST, vitalDTO, Vital.class);
         return result.getBody();
     }
 
@@ -73,7 +73,7 @@ public class DefaultVitalService implements VitalService {
         } else {
             purgeString = "?!purge";
         }
-        restTemplateService.exchange(host + "/obs/" + uuid + purgeString, HttpMethod.DELETE, Void.class);
+        restTemplateAdapter.exchange(host + "/obs/" + uuid + purgeString, HttpMethod.DELETE, Void.class);
     }
 }
 
