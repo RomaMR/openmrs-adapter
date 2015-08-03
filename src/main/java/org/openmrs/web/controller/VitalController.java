@@ -42,6 +42,7 @@ public class VitalController extends BaseController{
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<Vital> create(@RequestBody VitalDTO vitalDTO) {
         LOGGER.info("REST request to create vital");
+
         Vital vital = vitalService.createVital(vitalDTO);
         return new ResponseEntity<Vital>(vital, HttpStatus.CREATED
         );
@@ -50,6 +51,7 @@ public class VitalController extends BaseController{
     @RequestMapping(value = "/{uuid}", method = RequestMethod.PUT)
     public ResponseEntity<Vital> update(@PathVariable("uuid") String uuid, @RequestBody VitalDTO vitalDTO) {
         LOGGER.info("REST request to update vital");
+
         vitalDTO.setUuid(uuid);
         Vital vital = vitalService.updateVital(uuid, vitalDTO);
         return new ResponseEntity<Vital>(vital, HttpStatus.CREATED);

@@ -49,6 +49,7 @@ public class VisitController extends BaseController{
     @RequestMapping(value = "/{uuid}", method = RequestMethod.PUT)
     public ResponseEntity<Visit> update(@PathVariable("uuid") String uuid, @RequestBody VisitDTO visitDTO) {
         LOGGER.info("REST request to update visit");
+
         visitDTO.setUuid(uuid);
         Visit visit = visitService.updateVisit(uuid, visitDTO);
         return new ResponseEntity<Visit>(visit, HttpStatus.CREATED);

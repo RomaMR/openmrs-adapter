@@ -19,6 +19,7 @@ public class AutenticationExceptionHandler {
     @ExceptionHandler(value = HttpClientErrorException.class)
     public ResponseEntity<String> exception(Exception exception, WebRequest request) {
         LOGGER.info("Bad credentials");
+
         return new ResponseEntity<String>(exception.getMessage(), HttpStatus.FORBIDDEN);
     }
 }

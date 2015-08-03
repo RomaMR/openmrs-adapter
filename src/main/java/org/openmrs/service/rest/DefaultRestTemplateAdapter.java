@@ -43,8 +43,9 @@ public class DefaultRestTemplateAdapter implements RestTemplateAdapter {
         HttpHeaders headers = getHttpHeaders();
 
         HttpEntity<O> entity = new HttpEntity<O>(object, headers);
-        return restTemplate.exchange(url , method, entity, responseType);
+        return restTemplate.exchange(url, method, entity, responseType);
     }
+
 
     private HttpHeaders getHttpHeaders() {
         User user = sessionService.getSessionUser();

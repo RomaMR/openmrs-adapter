@@ -31,6 +31,7 @@ public class PatientController extends BaseController{
     @RequestMapping(method = RequestMethod.GET)
     public ResponseEntity<TemplateResults> getAll(@RequestParam(value = "query") String query) {
         LOGGER.info("REST request to get all patients");
+
         TemplateResults patients = patientService.getPatients(query);
         return new ResponseEntity<TemplateResults>(patients, HttpStatus.OK);
     }
@@ -38,6 +39,7 @@ public class PatientController extends BaseController{
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<Patient> create(@RequestBody PatientDTO patientDTO) {
         LOGGER.info("REST request to create patient");
+
         Patient patient = patientService.createPatient(patientDTO);
         return new ResponseEntity<Patient>(patient, HttpStatus.CREATED);
     }
@@ -45,6 +47,7 @@ public class PatientController extends BaseController{
     @RequestMapping(value = "/{uuid}", method = RequestMethod.PUT)
     public ResponseEntity<Patient> update(@PathVariable("uuid") String uuid, @RequestBody PatientDTO patientDTO) {
         LOGGER.info("REST request to update patient");
+
         Patient patient = patientService.updatePatient(uuid, patientDTO);
         return new ResponseEntity<Patient>(patient, HttpStatus.CREATED);
     }
