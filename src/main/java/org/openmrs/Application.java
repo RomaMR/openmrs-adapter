@@ -3,6 +3,7 @@ package org.openmrs;
 import com.mangofactory.swagger.plugin.EnableSwagger;
 import org.openmrs.config.DefaultConfig;
 import org.openmrs.config.SecurityConfig;
+import org.openmrs.config.ServiceConfig;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -19,6 +20,7 @@ import org.springframework.context.annotation.PropertySource;
 @Configuration
 @Import({
         DefaultConfig.class,
+        ServiceConfig.class,
         SecurityConfig.class
 })
 public class Application {

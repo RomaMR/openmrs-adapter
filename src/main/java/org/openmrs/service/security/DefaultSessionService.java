@@ -1,18 +1,23 @@
 package org.openmrs.service.security;
 
 import org.openmrs.domain.user.User;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Component;
-import org.springframework.util.Assert;
 
-@Component("sessionService")
 public class DefaultSessionService implements SessionService {
+
+    private String openmrsUsername;
+
+    private String openmrsPassword;
 
     @Override
     public User getSessionUser() {
-        Object details = SecurityContextHolder.getContext().getAuthentication().getDetails();
-        Assert.isInstanceOf(User.class, details);
+        return new User(openmrsUsername, openmrsPassword);
+    }
 
-        return (User) details;
+    public void setOpenmrsUsername(String openmrsUsername) {
+        this.openmrsUsername = openmrsUsername;
+    }
+
+    public void setOpenmrsPassword(String openmrsPassword) {
+        this.openmrsPassword = openmrsPassword;
     }
 }
