@@ -1,7 +1,10 @@
 package org.openmrs.web.rest.content;
 
+import org.apache.commons.io.IOUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
@@ -11,8 +14,11 @@ import org.openmrs.web.controller.ContentController;
 import org.openmrs.web.rest.AbstractControllerTest;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.web.multipart.MultipartFile;
 
+import java.io.InputStream;
+import java.io.StringWriter;
+
+import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.*;
@@ -38,18 +44,22 @@ public class ContentControllerTest extends AbstractControllerTest {
         return unit;
     }
 
+    @Captor
+    private ArgumentCaptor<InputStream> inputStreamArgumentCaptor;
+
     @Test
     public void testPost() throws Exception {
         //Given
         String patientId = "ab563ece-97be-426e-89ed-939cab6ab9f8";
         String encounterId = "ab563ece-97be-426e-89ed-939cab6ab9f8";
+        String actualContent = "Hallo World";
         MockMultipartFile mockMultipartFile = new MockMultipartFile(
                 "file",                //filename
-                "Hallo World".getBytes()); //content
+                actualContent.getBytes()); //content
 
         String expectedUUID = "ab563ece-97be-426e-89ed-939cab6ab9f8_ab563ece-97be-426e-89ed-939cab6ab9f8_download.jpg_1438547423892.image/jpeg";
         //When
-        when(service.saveContent(anyString(), anyString(), any(MultipartFile.class))).thenReturn(expectedUUID);
+        when(service.saveContent(anyString(), anyString(), any(InputStream.class), anyString())).thenReturn(expectedUUID);
 
         //Then
         mockMvc.perform(MockMvcRequestBuilders.fileUpload("/api/contents")
@@ -58,7 +68,13 @@ public class ContentControllerTest extends AbstractControllerTest {
                 .param("encounterId", encounterId))
                 .andExpect(status().isOk())
                 .andExpect(content().string(expectedUUID));
-        verify(service).saveContent(patientId, encounterId, mockMultipartFile);
+
+        verify(service).saveContent(eq(patientId), eq(encounterId), inputStreamArgumentCaptor.capture(), eq(mockMultipartFile.getOriginalFilename()));
+        InputStream io = inputStreamArgumentCaptor.getValue();
+        StringWriter writer = new StringWriter();
+        IOUtils.copy(io, writer);
+        String expectedContent = writer.toString();
+        assertEquals(expectedContent, actualContent);
     }
 
     @Test

@@ -36,8 +36,7 @@ public class ContentController extends BaseController {
             required = true) String encounterId, @RequestParam(value = "file", required = true) MultipartFile file)
             throws IOException {
         LOGGER.info("REST request to save content");
-
-        String uuid = contentService.saveContent(patientId, encounterId, file);
+        String uuid = contentService.saveContent(patientId, encounterId, file.getInputStream(), file.getOriginalFilename());
         return new ResponseEntity<String>(uuid, HttpStatus.OK);
     }
 

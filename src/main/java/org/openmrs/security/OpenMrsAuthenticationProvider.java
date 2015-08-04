@@ -35,14 +35,27 @@ public class OpenMrsAuthenticationProvider implements AuthenticationProvider {
     @Value("${openmrs.host.rest}")
     private String host;
 
+    @Value("${openmrs.username}")
+    private String openmrsUsername;
+
+    @Value("${openmrs.password}")
+    private String openmrsPassword;
+
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         LOGGER.info("Making authentication for open mrs system");
 
         String login = authentication.getName();
-        String password = authentication.getCredentials().toString();
-        String base64 = SecurityUtils.getBase64(login, password);
+        String base64;
+        String password;
+        if (!StringUtils.isBlank(login)) {
+            password = authentication.getCredentials().toString();
+        } else {
+            login = openmrsUsername;
+            password = openmrsPassword;
+        }
 
+        base64 = SecurityUtils.getBase64(login, password);
 
         Collection<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
         if (!StringUtils.isBlank(login)) {

@@ -1,5 +1,6 @@
 package org.openmrs.service.content;
 
+import org.apache.commons.io.IOUtils;
 import org.openmrs.service.rest.RestTemplateAdapter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,12 +10,12 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 
 /**
  * Created by romanmudryi on 29.07.15.
@@ -45,14 +46,14 @@ public class DefaultContentService implements ContentService {
     }
 
     @Override
-    public String saveContent(String patientId, String encounterId, MultipartFile file) throws IOException {
+    public String saveContent(String patientId, String encounterId, InputStream inputStream, String fileName) throws IOException {
         LOGGER.info("saving content");
 
         ResponseEntity<String> result = null;
-        String tempFileName = String.format("/tmp/%s", file.getOriginalFilename());
+        String tempFileName = String.format("/tmp/%s", fileName);
 
         try(FileOutputStream fo = new FileOutputStream(tempFileName)) {
-            fo.write(file.getBytes());
+            IOUtils.copy(inputStream, fo);
             LinkedMultiValueMap<String, Object> map = getParametersMap(patientId, encounterId, tempFileName);
             result = restTemplateAdapter.exchangePOST(host, HttpMethod.POST, map, String.class);
         } finally {
