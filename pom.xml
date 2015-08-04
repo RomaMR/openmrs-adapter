@@ -49,6 +49,7 @@
         <openmrs.host.content>http://localhost:8096/openmrs-standalone/moduleServlet/openmrs-content-omod/contents</openmrs.host.content>
         <openmrs.username>admin</openmrs.username>
         <openmrs.password>Admin123</openmrs.password>
+        <openmrs.temppath>/tmp/</openmrs.temppath>
     </properties>
 
     <dependencies>

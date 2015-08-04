@@ -33,9 +33,16 @@ public class DefaultContentService implements ContentService {
 
     private String host;
 
+    private String tempPath;
+
     @Value("${openmrs.host.content}")
     public void setHost(String host) {
         this.host = host;
+    }
+
+    @Value("${openmrs.temppath}")
+    public void setTempPath(String tempPath) {
+        this.tempPath = tempPath;
     }
 
     public byte[] getContent(String uuid) {
@@ -50,7 +57,7 @@ public class DefaultContentService implements ContentService {
         LOGGER.info("saving content");
 
         ResponseEntity<String> result = null;
-        String tempFileName = String.format("/tmp/%s", fileName);
+        String tempFileName = String.format(tempPath + "%s", fileName);
 
         try(FileOutputStream fo = new FileOutputStream(tempFileName)) {
             IOUtils.copy(inputStream, fo);
@@ -66,9 +73,11 @@ public class DefaultContentService implements ContentService {
 
     private LinkedMultiValueMap<String, Object> getParametersMap(String patientId, String encounterId, String tempFileName) {
         LinkedMultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+
         map.add(PATIENT_ID, patientId);
         map.add(ENCOUNTER_ID, encounterId);
         map.add("file", new FileSystemResource(tempFileName));
+
         return map;
     }
 
